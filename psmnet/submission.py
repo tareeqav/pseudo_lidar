@@ -77,7 +77,7 @@ def test(imgL,imgR):
            imgL = torch.FloatTensor(imgL).cuda()
            imgR = torch.FloatTensor(imgR).cuda()     
 
-        imgL, imgR= Variable(imgL), Variable(imgR)
+        imgL, imgR = Variable(imgL), Variable(imgR)
 
         with torch.no_grad():
             output = model(imgL,imgR)
@@ -115,9 +115,12 @@ def main():
        top_pad   = 384-imgL_o.shape[0]
        left_pad  = 1248-imgL_o.shape[1]
        img = pred_disp[top_pad:,:-left_pad]
+
        print(test_left_img[inx].split('/')[-1])
+
        if args.save_figure:
            skimage.io.imsave(args.save_path+'/'+test_left_img[inx].split('/')[-1],(img*256).astype('uint16'))
+           np.save(args.save_path+'/'+test_left_img[inx].split('/')[-1][:-4], img)
        else:
            np.save(args.save_path+'/'+test_left_img[inx].split('/')[-1][:-4], img)
 

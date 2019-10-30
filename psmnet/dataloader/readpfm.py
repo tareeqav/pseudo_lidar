@@ -4,6 +4,7 @@ import sys
  
 
 def readPFM(file):
+
     file = open(file, 'rb')
 
     color = None
@@ -12,15 +13,15 @@ def readPFM(file):
     scale = None
     endian = None
 
-    header = file.readline().rstrip()
-    if header == 'PF':
+    header = file.readline().strip()
+    if header.decode('utf-8') == 'PF':
         color = True
-    elif header == 'Pf':
+    elif header.decode('utf-8') == 'Pf':
         color = False
     else:
-        raise Exception('Not a PFM file.')
+        raise Exception('Not a PFM file.', header)
 
-    dim_match = re.match(r'^(\d+)\s(\d+)\s$', file.readline())
+    dim_match = re.match(r'^(\d+)\s(\d+)\s$', file.readline().decode('utf-8'))
     if dim_match:
         width, height = map(int, dim_match.groups())
     else:

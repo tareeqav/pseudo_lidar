@@ -1,11 +1,14 @@
 from __future__ import print_function
+
+import math
+
 import torch
 import torch.nn as nn
 import torch.utils.data
 from torch.autograd import Variable
 import torch.nn.functional as F
-import math
-from submodule import *
+
+from .submodule import *
 
 class PSMNet(nn.Module):
     def __init__(self, maxdisp):
@@ -63,9 +66,9 @@ class PSMNet(nn.Module):
         targetimg_fea  = self.feature_extraction(right)
  
         #matching
-        cost = Variable(torch.FloatTensor(refimg_fea.size()[0], refimg_fea.size()[1]*2, self.maxdisp/4,  refimg_fea.size()[2],  refimg_fea.size()[3]).zero_(), volatile= not self.training).cuda()
+        cost = Variable(torch.FloatTensor(refimg_fea.size()[0], refimg_fea.size()[1]*2, self.maxdisp//4,  refimg_fea.size()[2],  refimg_fea.size()[3]).zero_(), volatile= not self.training).cuda()
 
-        for i in range(self.maxdisp/4):
+        for i in range(self.maxdisp//4):
             if i > 0 :
              cost[:, :refimg_fea.size()[1], i, :,i:]   = refimg_fea[:,:,:,i:]
              cost[:, refimg_fea.size()[1]:, i, :,i:] = targetimg_fea[:,:,:,:-i]

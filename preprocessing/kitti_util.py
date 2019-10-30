@@ -41,9 +41,10 @@ class Calibration(object):
         TODO(rqi): do matrix multiplication only once for each projection.
     '''
 
-    def __init__(self, calib_filepath):
+    def __init__(self, calib_filepath, isstatic=False):
 
         calibs = self.read_calib_file(calib_filepath)
+
         # Projection matrix from rect camera coord to image2 coord
         self.P = calibs['P2']
         self.P = np.reshape(self.P, [3, 4])

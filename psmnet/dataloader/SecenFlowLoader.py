@@ -1,4 +1,6 @@
-import os
+import os, sys
+sys.path.append(os.path.dirname(__file__))
+
 import torch
 import torch.utils.data as data
 import torch

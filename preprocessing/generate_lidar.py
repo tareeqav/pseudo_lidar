@@ -13,11 +13,13 @@ def project_disp_to_points(calib, disp, max_high):
     mask = disp > 0
     depth = calib.f_u * baseline / (disp + 1. - mask)
     rows, cols = depth.shape
+    print('>>>>>>>>>>>>>> in project disp to point', rows, cols)
     c, r = np.meshgrid(np.arange(cols), np.arange(rows))
     points = np.stack([c, r, depth])
     points = points.reshape((3, -1))
     points = points.T
     points = points[mask.reshape(-1)]
+    print('>>>>>>>> consider saving this', points.shape)
     cloud = calib.project_image_to_velo(points)
     valid = (cloud[:, 0] >= 0) & (cloud[:, 2] < max_high)
     return cloud[valid]
